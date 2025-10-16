@@ -3,9 +3,9 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/fuel_order_db
-    username: postgres
-    password: postgres
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/fuel_order_db}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
     driver-class-name: org.postgresql.Driver
     hikari:
       pool-name: FuelHikariPool
@@ -17,7 +17,7 @@ spring:
       transaction-isolation: TRANSACTION_READ_COMMITTED
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
     properties:
       hibernate:
         format_sql: true
@@ -26,6 +26,10 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+
+app:
+  jwt-secret: ${JWT_SECRET:3b1b9d12f7b8a4f9c48e94a1cb4a6b847c42b3e01c5975c8c4b3f1a73d32a9b1}
+  token-ttl: 86400000
 
 logging:
   level:
