@@ -11,6 +11,7 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ public class FuelOrderController {
 
     private final FuelOrderService fuelOrderService;
 
+    @PreAuthorize("hasRole('AIRCRAFT_OPERATOR')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderResponse submitRequest(@Valid @RequestBody CreateOrderRequest request) {
@@ -35,7 +37,8 @@ public class FuelOrderController {
         return fuelOrderService.submitRequest(request);
     }
 
-    @PostMapping("list-order")
+    @PreAuthorize("hasRole('OPERATIONS_MANAGER')")
+    @PostMapping("list")
     public PageResponse<OrderResponse> listOrder(@RequestBody SearchOrderRequest searchOrderRequest, @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
@@ -48,6 +51,7 @@ public class FuelOrderController {
                 orderResponses.getTotalPages());
     }
 
+    @PreAuthorize("hasRole('OPERATIONS_MANAGER')")
     @PatchMapping("/{id}/status")
     public OrderResponse updateStatus(@PathVariable UUID id, @Valid @RequestBody UpdateStatusRequest req) {
         log.debug("Received order update request: {}", req);

@@ -4,6 +4,8 @@ import com.assignment.fuelorder.dto.AuthDtos.LoginRequest;
 import com.assignment.fuelorder.dto.AuthDtos.RegisterRequest;
 import com.assignment.fuelorder.dto.AuthDtos.TokenResponse;
 import com.assignment.fuelorder.entity.User;
+import com.assignment.fuelorder.exception.CustomGlobalException;
+import com.assignment.fuelorder.exception.ErrorCode;
 import com.assignment.fuelorder.repo.UserRepository;
 import com.assignment.fuelorder.security.JwtUtil;
 import com.assignment.fuelorder.service.AuthService;
@@ -36,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     public Long register(RegisterRequest registerRequest) {
 
         if (userRepository.existsByEmailIgnoreCase(registerRequest.email())) {
-            throw new IllegalArgumentException("Email already registered");
+            throw new CustomGlobalException(ErrorCode.EMAIL_ALREADY_REGISTERED);
         }
 
         User user = new User();

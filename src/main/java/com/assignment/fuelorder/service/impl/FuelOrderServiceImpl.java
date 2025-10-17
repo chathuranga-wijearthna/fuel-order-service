@@ -5,6 +5,8 @@ import com.assignment.fuelorder.dto.OrderResponse;
 import com.assignment.fuelorder.dto.SearchOrderRequest;
 import com.assignment.fuelorder.dto.constants.OrderStatus;
 import com.assignment.fuelorder.entity.FuelOrder;
+import com.assignment.fuelorder.exception.CustomGlobalException;
+import com.assignment.fuelorder.exception.ErrorCode;
 import com.assignment.fuelorder.mapper.FuelOrderMapper;
 import com.assignment.fuelorder.repo.FuelOrderRepository;
 import com.assignment.fuelorder.repo.specification.OrderSpecification;
@@ -51,10 +53,11 @@ public class FuelOrderServiceImpl implements FuelOrderService {
     public OrderResponse updateOrderStatus(UUID id, OrderStatus orderStatus) {
 
         log.info("Fetching order for id {}", id);
-        FuelOrder fuelOrder = fuelOrderRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Order not found"));
+        FuelOrder fuelOrder = fuelOrderRepository.findById(id).orElseThrow(() -> new CustomGlobalException(ErrorCode.ORDER_NOT_FOUND));
 
         if (!isAllowedTransition(fuelOrder.getStatus(), orderStatus)) {
-            throw new IllegalStateException("Illegal status transition: " + fuelOrder.getStatus() + " -> " + orderStatus);
+            log.error("Order status {} is not allowed", orderStatus);
+            throw new CustomGlobalException(ErrorCode.ILLEGAL_STATUS_TRANSITION, fuelOrder.getStatus(), orderStatus);
         }
 
         fuelOrder.setStatus(orderStatus);
@@ -81,7 +84,7 @@ public class FuelOrderServiceImpl implements FuelOrderService {
 
         if (!request.deliveryWindowStart().isBefore(request.deliveryWindowEnd())) {
             log.error("Invalid delivery window");
-            throw new IllegalArgumentException("Delivery window start must be before delivery window end");
+            throw new CustomGlobalException(ErrorCode.DELIVERY_WINDOW_INVALID);
         }
 
         //Validate an overlap time window
@@ -91,7 +94,7 @@ public class FuelOrderServiceImpl implements FuelOrderService {
 
         if (overlaps) {
             log.error("Delivery window overlaps");
-            throw new IllegalStateException("An order for this tailNumber already exists in the requested delivery window");
+            throw new CustomGlobalException(ErrorCode.DELIVERY_WINDOW_OVERLAP);
         }
 
     }
