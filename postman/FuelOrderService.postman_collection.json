@@ -1,0 +1,140 @@
+{
+  "info": {
+    "name": "Fuel Order Service",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Sample collection for Fuel Order Service endpoints"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "register"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"operator@example.com\",\n  \"password\": \"StrongP@ssw0rd\",\n  \"userRole\": \"AIRCRAFT_OPERATOR\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "login"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"operator@example.com\",\n  \"password\": \"StrongP@ssw0rd\"\n}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json && json.token) { pm.collectionVariables.set('token', json.token); }"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Submit Order (AIRCRAFT_OPERATOR)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "orders"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tailNumber\": \"N12345\",\n  \"airportIcao\": \"KJFK\",\n  \"requestedFuelVolume\": 1500.0,\n  \"deliveryWindowStart\": \"2025-10-17T10:00:00\",\n  \"deliveryWindowEnd\": \"2025-10-17T12:00:00\"\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List Orders (OPERATIONS_MANAGER)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders/list?page=0&size=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "orders", "list"],
+              "query": [
+                { "key": "page", "value": "0" },
+                { "key": "size", "value": "10" }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"tailNumber\": \"\",\n  \"airportIcao\": \"\",\n  \"status\": null\n}"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Status (OPERATIONS_MANAGER)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/orders/{{orderId}}/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "orders", "{{orderId}}", "status"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"CONFIRMED\"\n}"
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8081" },
+    { "key": "token", "value": "" },
+    { "key": "orderId", "value": "f20c49a2-92f8-43d3-8d9b-723a772dd9d0" }
+  ]
+}
+
+

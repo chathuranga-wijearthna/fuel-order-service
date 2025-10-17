@@ -6,6 +6,7 @@ INSERT INTO tbl_app_users
 (id, email, password_hash, user_role)
 VALUES(2, 'operation.manager@example.com', '$2a$10$W9hViAifRdRbHN4dOlOJC.Hb6M7kiWLmYQI59SXs.L9z/26HaDKS6', 'OPERATIONS_MANAGER');
 
+SELECT setval('public.tbl_app_users_id_seq', 2, true);
 
 -- Sample Orders
 INSERT INTO tbl_fuel_orders
