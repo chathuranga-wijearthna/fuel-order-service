@@ -71,7 +71,7 @@ class FuelOrderControllerTest {
         CreateOrderRequest req = new CreateOrderRequest("N1", "KLAX", new BigDecimal("1000.00"),
                 LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2));
 
-        mockMvc.perform(post("/api/v1/orders")
+        mockMvc.perform(post("/api/v1/order")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isCreated())
@@ -84,7 +84,7 @@ class FuelOrderControllerTest {
         CreateOrderRequest req = new CreateOrderRequest("N1", "KLA", new BigDecimal("1.000"),
                 LocalDateTime.now().plusHours(1), LocalDateTime.now().plusHours(2));
 
-        mockMvc.perform(post("/api/v1/orders")
+        mockMvc.perform(post("/api/v1/order")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isBadRequest())
@@ -101,7 +101,7 @@ class FuelOrderControllerTest {
 
         when(fuelOrderService.listOrder(any(SearchOrderRequest.class), eq(0), eq(10))).thenReturn(page);
 
-        mockMvc.perform(post("/api/v1/orders/list")
+        mockMvc.perform(post("/api/v1/order/list")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{}"))
                 .andExpect(status().isOk())
@@ -119,7 +119,7 @@ class FuelOrderControllerTest {
 
         when(fuelOrderService.updateOrderStatus(eq(id), eq(OrderStatus.CONFIRMED))).thenReturn(resp);
 
-        mockMvc.perform(patch("/api/v1/orders/" + id + "/status")
+        mockMvc.perform(patch("/api/v1/order/" + id + "/status")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(new UpdateStatusRequest(OrderStatus.CONFIRMED))))
                 .andExpect(status().isOk())

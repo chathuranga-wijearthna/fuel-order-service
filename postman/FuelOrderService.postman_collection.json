@@ -72,7 +72,7 @@
               { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/orders",
+              "raw": "{{baseUrl}}/api/v1/order",
               "host": ["{{baseUrl}}"],
               "path": ["api", "v1", "orders"]
             },
@@ -92,7 +92,7 @@
               { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/orders/list?page=0&size=10",
+              "raw": "{{baseUrl}}/api/v1/order/list?page=0&size=10",
               "host": ["{{baseUrl}}"],
               "path": ["api", "v1", "orders", "list"],
               "query": [
@@ -116,7 +116,7 @@
               { "key": "Authorization", "value": "Bearer {{token}}" }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/v1/orders/{{orderId}}/status",
+              "raw": "{{baseUrl}}/api/v1/order/{{orderId}}/status",
               "host": ["{{baseUrl}}"],
               "path": ["api", "v1", "orders", "{{orderId}}", "status"]
             },
