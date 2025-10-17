@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
         for (FieldError fe : ex.getBindingResult().getFieldErrors()) {
             errors.put(fe.getField(), fe.getDefaultMessage());
         }
-        return ResponseEntity.badRequest().body(Map.of("message", "Validation failed", "errors", errors));
+        return ResponseEntity.badRequest().body(Map.of("message", "Validation failed" + errors, "errors", errors));
     }
 
     private HttpStatus mapStatus(String code) {

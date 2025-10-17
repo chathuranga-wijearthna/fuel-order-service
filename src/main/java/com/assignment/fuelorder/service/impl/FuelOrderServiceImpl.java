@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,7 @@ public class FuelOrderServiceImpl implements FuelOrderService {
     @Transactional(readOnly = true)
     public Page<OrderResponse> listOrder(SearchOrderRequest searchRequest, int page, int size) {
 
-        var pageable = PageRequest.of(Math.max(0, page), Math.max(1, size));
+        var pageable = PageRequest.of(Math.max(0, page), Math.max(1, size)).withSort(Sort.Direction.ASC, "deliveryWindowStart");
 
         Page<FuelOrder> items = fuelOrderRepository.findAll(OrderSpecification.getOrderSpecification(searchRequest), pageable);
 

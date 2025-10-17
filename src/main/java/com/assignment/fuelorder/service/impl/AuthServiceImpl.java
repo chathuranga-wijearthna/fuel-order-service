@@ -12,6 +12,7 @@ import com.assignment.fuelorder.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,9 +30,13 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public TokenResponse login(LoginRequest loginRequest) {
-        Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
-        String token = jwtUtil.generateToken(auth);
-        return new TokenResponse(token);
+        try {
+            Authentication auth = authManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.email(), loginRequest.password()));
+            String token = jwtUtil.generateToken(auth);
+            return new TokenResponse(token);
+        } catch (BadCredentialsException e) {
+            throw new CustomGlobalException(ErrorCode.BAD_CREDENTIALS);
+        }
     }
 
     @Override

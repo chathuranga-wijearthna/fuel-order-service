@@ -17,6 +17,7 @@ public enum ErrorCode {
 
     // Auth/User related errors
     EMAIL_ALREADY_REGISTERED("ERR_FO_AUTH_01", "Email already registered"),
+    BAD_CREDENTIALS("ERR_FO_AUTH_02", "Bad credentials"),
 
     ;
     private final String code;
