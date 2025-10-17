@@ -74,7 +74,7 @@
             "url": {
               "raw": "{{baseUrl}}/api/v1/order",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "orders"]
+              "path": ["api", "v1", "order"]
             },
             "body": {
               "mode": "raw",
@@ -94,7 +94,7 @@
             "url": {
               "raw": "{{baseUrl}}/api/v1/order/list?page=0&size=10",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "orders", "list"],
+              "path": ["api", "v1", "order", "list"],
               "query": [
                 { "key": "page", "value": "0" },
                 { "key": "size", "value": "10" }
@@ -118,7 +118,7 @@
             "url": {
               "raw": "{{baseUrl}}/api/v1/order/{{orderId}}/status",
               "host": ["{{baseUrl}}"],
-              "path": ["api", "v1", "orders", "{{orderId}}", "status"]
+              "path": ["api", "v1", "order", "{{orderId}}", "status"]
             },
             "body": {
               "mode": "raw",
