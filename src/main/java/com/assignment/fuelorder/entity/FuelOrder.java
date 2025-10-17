@@ -31,7 +31,7 @@ public class FuelOrder extends AuditEntity {
     @Column(nullable = false, length = 4)
     private String airportIcao;
 
-    @Column(nullable = false, precision = 18, scale = 3)
+    @Column(nullable = false, precision = 18, scale = 2)
     private BigDecimal requestedFuelVolume;
 
     @Column(nullable = false)

@@ -77,6 +77,6 @@ class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", is("Validation failed")));
+                .andExpect(jsonPath("$.message", is("Validation failed {password=must not be blank, userRole=must not be null, email=must be a well-formed email address}")));
     }
 }

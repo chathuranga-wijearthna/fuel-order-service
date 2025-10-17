@@ -88,7 +88,7 @@ class FuelOrderControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(req)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", is("Validation failed")));
+                .andExpect(jsonPath("$.message", is("Validation failed {airportIcao=must match \"[A-Za-z]{4}\", requestedFuelVolume=must be greater than or equal to 1000.0}")));
     }
 
     @Test
